@@ -1,1 +1,1 @@
-wireguard-tools expect moreutils zip unzip
+wireguard-tools expect moreutils zip unzip python3-pip

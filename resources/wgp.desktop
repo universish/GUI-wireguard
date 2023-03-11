@@ -1,0 +1,12 @@
+[Desktop Entry]
+Categories=Python;Vpn;Wireguard;Qt;
+Comment=Wireguard client
+Exec=sh -c "pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY python3 /opt/wireguard-gui-python/wgp.py"
+Icon=/opt/wireguard-gui-python/resources/icons/wireguard-icon.png
+Name=wgp
+Path=/opt/wireguard-gui-python/
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+Version=1.0
