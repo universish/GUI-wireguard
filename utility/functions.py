@@ -135,11 +135,11 @@ def edit_interface(interface: str, new_name: str, old_config: str, new_config: s
                 down_interface(interface)
             Popen(
                 f"cp {WIREGUARD_CONFIGS_FOLDER}/{interface} {WIREGUARD_CONFIGS_FOLDER}/{new_name}.conf".split(' '))
-            write_wireguard_config(interface, '')
             if actived:
                 up_interface(f"{new_name}.conf")
             append_log_line_without_timestamp(
-                f"[###] COPYING INTERFACE {get_interface_name(interface)} => {new_name}")
+                f"[###] COPYED INTERFACE {get_interface_name(interface)} => {new_name}")
+            delete_interface(interface)
     else:
         write_wireguard_config(interface, old_config)
 
@@ -156,7 +156,7 @@ def delete_interface(interface: str):
     remove_(f"{WIREGUARD_CONFIGS_FOLDER}/{interface}")
 
     append_log_line_without_timestamp(
-        f"[##] DELETING INTERFACE {get_interface_name(interface)}")
+        f"[##] DELETED INTERFACE {get_interface_name(interface)}")
 
 
 def export_interfaces(directory: str):
@@ -164,7 +164,7 @@ def export_interfaces(directory: str):
 
 
 def import_interfaces(zip_file: str):
-    return getstatusoutput_(f"unzip -o {zip_file} -d {WIREGUARD_CONFIGS_FOLDER} '*.conf'")[0] == 0
+    return getstatusoutput_(f"unzip -jo {zip_file} -d {WIREGUARD_CONFIGS_FOLDER} '*.conf'")[0] == 0
 
 
 def add_interface(interface: str):

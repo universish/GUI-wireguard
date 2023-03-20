@@ -5,6 +5,7 @@ from windows.edit_window import Ui_EditWindow
 from windows.new_window import Ui_NewWindow
 from utility.functions import *
 from datetime import datetime
+from functools import partial
 from pathlib import Path
 
 
@@ -48,7 +49,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.toolButton_2 = QtWidgets.QToolButton(self.tab)
         self.toolButton_2.setObjectName(u"toolButton_2")
-        self.toolButton_2.setEnabled(False)
         sizePolicy1.setHeightForWidth(
             self.toolButton_2.sizePolicy().hasHeightForWidth())
         self.toolButton_2.setSizePolicy(sizePolicy1)
@@ -164,11 +164,24 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.tray_menu = QtWidgets.QMenu()
 
+        tray_interfaces = get_interfaces()
+        self.tray_menu_actions_list = []
+
+        if len(tray_interfaces) > 0:
+            for i, interface in enumerate(tray_interfaces):
+                self.tray_menu_actions_list.append(QtGui.QAction(interface))
+                self.tray_menu_actions_list[i].triggered.connect(partial(turn_interface, interface))
+                self.tray_menu.addAction(self.tray_menu_actions_list[i])
+            self.tray_menu.addSeparator()
+            self.update_tray_menu()
+
         self.tray_menu_show = QtGui.QAction("Show")
         self.tray_menu_show.triggered.connect(self.show_window)
+        self.tray_menu_show.setIcon(QtGui.QIcon(f"{PROJECT_DIRECTORY}/resources/icons/show-icon.png"))
 
         self.tray_menu_quit = QtGui.QAction("Quit")
         self.tray_menu_quit.triggered.connect(exit)
+        self.tray_menu_quit.setIcon(QtGui.QIcon(f"{PROJECT_DIRECTORY}/resources/icons/quit-icon.png"))
 
         self.tray_menu.addAction(self.tray_menu_show)
         self.tray_menu.addAction(self.tray_menu_quit)
@@ -197,6 +210,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.listWidget.setDragEnabled(True)
         self.listWidget.addItems(get_interfaces())
         self.listWidget.itemSelectionChanged.connect(self.list_widget_selected)
+        self.listWidget.doubleClicked.connect(self.toolButton_4.click)
         self.update_list()
 
         self.toolButton.clicked.connect(self.add_interface_button_click)
@@ -259,9 +273,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolButton_4.setText(
             QtCore.QCoreApplication.translate("MainWindow", u"Activate / Deactivate", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(
-            self.tab), QtCore.QCoreApplication.translate("MainWindow", u"Interfaces", None))
+            self.tab), QtCore.QCoreApplication.translate("MainWindow", u"Configs", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(
-            self.tab_2), QtCore.QCoreApplication.translate("MainWindow", u"Log", None))
+            self.tab_2), QtCore.QCoreApplication.translate("MainWindow", u"Logs", None))
 
 ### END GENERATED CODE - TRANSLATE ###
 
@@ -272,8 +286,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def list_widget_selected(self):
         if self.listWidget.currentItem() != None:
             self.update_interface_info()
-
-            self.toolButton_2.setEnabled(True)
             self.toolButton_4.setEnabled(True)
             self.toolButton_5.setEnabled(True)
             self.update_active_button()
@@ -304,8 +316,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                     self.update_active_button()
                     if interface_active(current_item.text()):
                         self.update_interface_info()
-
-            if self.tabWidget.currentIndex() == 1:
+            elif self.tabWidget.currentIndex() == 1:
                 self.update_log()
 
     def update_log(self):
@@ -322,21 +333,16 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.textBrowser.append(log_file_line[:-1])
 
     def update_list(self):
-        interfaces_files = get_interfaces()
-        interfaces_list = [self.listWidget.item(
-            i).text() for i in range(self.listWidget.count())]
+        interfaces_configs = get_interfaces()
+        interfaces_list_witdget = [interface.text() for interface in self.listWidget.findItems('*', QtCore.Qt.MatchFlag.MatchWildcard)]
 
-        for i, interface in enumerate(interfaces_list):
-            if not interface_exists(interface) or get_config_file_content(interface)['full_content'] == '':
+        for i, interface in enumerate(interfaces_list_witdget):
+            if interface not in interfaces_configs:
                 self.listWidget.takeItem(i)
-                interfaces_list.remove(interface)
-                interfaces_files.remove(interface)
                 i -= 1
-                if interface_exists:
-                    delete_interface(interface)
 
-        for i, interface in enumerate(interfaces_files):
-            if interface not in interfaces_list:
+        for i, interface in enumerate(interfaces_configs):
+            if interface not in interfaces_list_witdget:
                 self.listWidget.insertItem(i, interface)
 
             if interface_active(interface):
@@ -345,6 +351,27 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             else:
                 self.listWidget.item(i).setIcon(QtGui.QIcon(
                     f"{PROJECT_DIRECTORY}/resources/icons/deactivated-icon.png"))
+
+    def update_tray_menu(self):
+        interfaces_configs = get_interfaces()
+        actions_tray_menu = [action.text() for action in self.tray_menu_actions_list]
+
+        for i, action in enumerate(self.tray_menu_actions_list):
+            if action.text() not in interfaces_configs:
+                self.tray_menu_actions_list.remove(action)
+                i -= 1
+
+        for i, interface in enumerate(interfaces_configs):
+            if interface not in actions_tray_menu:
+                self.tray_menu_actions_list.insert(i, QtGui.QAction(interface))
+                self.tray_menu_actions_list[i].triggered.connect(partial(turn_interface, interface))
+                self.tray_menu.insertAction(self.tray_menu.actions()[i], self.tray_menu_actions_list[i])
+                self.tray_menu.insertSeparator(self.tray_menu.actions()[-2])
+
+            if interface_active(interface):
+                self.tray_menu_actions_list[i].setIcon(QtGui.QIcon(f"{PROJECT_DIRECTORY}/resources/icons/activated-icon.png"))
+            else:
+                self.tray_menu_actions_list[i].setIcon(QtGui.QIcon(f"{PROJECT_DIRECTORY}/resources/icons/deactivated-icon.png"))
 
     def update_interface_info(self):
         current_item = self.listWidget.currentItem()
@@ -430,6 +457,13 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             if reply == QtWidgets.QMessageBox.StandardButton.Yes:
                 self.listWidget.takeItem(self.listWidget.row(current_item))
                 delete_interface(current_item.text())
+
+                if self.listWidget.count() == 0:
+                    self.plainTextEdit.clear()
+                    self.plainTextEdit_2.clear()
+                    self.toolButton_4.setText('Activate / Deactivate')
+                    self.toolButton_4.setEnabled(False)
+                    self.toolButton_5.setEnabled(False)
         else:
             QtWidgets.QMessageBox(
                 QtWidgets.QMessageBox.Icon.Critical, 'Error', 'You have to select an interface').exec()
@@ -479,10 +513,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     # START TRAY ICON #
 
-    def tray_icon_click(self, reason):
-        if reason == QtWidgets.QSystemTrayIcon.ActivationReason.Trigger:
-            menu = self.tray_icon.contextMenu()
-            menu.popup(self.tray_icon.geometry().center())
+    def tray_icon_click(self):
+        self.update_tray_menu()
+        menu = self.tray_icon.contextMenu()
+        menu.popup(self.tray_icon.geometry().center())
 
     def show_window(self):
         self.show()
