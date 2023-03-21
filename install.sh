@@ -1,8 +1,4 @@
 #!/bin/bash
-SCRIPT_PATH=$(readlink -f $0)
-DIR_PATH=$(dirname $SCRIPT_PATH)
-
-cd $DIR_PATH
 
 apt-get --version > /dev/null 2>&1
 if [[ $? == 0 ]]
