@@ -63,12 +63,15 @@ $ sudo python wgp.py
 ### Screenshots
 
 - Config files:
+
 ![wireguard config files](/screenshots/client-configs.png "Client config files")
 
 - Wireguard logs:
+
 ![wireguard logs](/screenshots/client-logs.png "Client logs")
 
 - Tray menu:
+
 ![tray menu](/screenshots/tray-menu.png "Tray menu")
 
 ### License
