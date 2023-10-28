@@ -3,27 +3,30 @@
 apt-get --version > /dev/null 2>&1
 if [[ $? == 0 ]]
 then
-    sudo apt-get install $(cat system-requirements.txt)
+    apt-get install $(cat system-requirements.txt)
 fi
 
 pacman --version > /dev/null 2>&1
 if [[ $? == 0 ]]
 then
-    sed -i 's/python3-pip/python-pip/g' system-requirements.txt
-    sudo pacman -S $(cat system-requirements.txt)
+    pacman -S $(cat system-requirements.txt)
 fi
 
 dnf --version > /dev/null 2>&1
 if [[ $? == 0 ]]
 then
-    sudo dnf install $(cat system-requirements.txt)
+    dnf install $(cat system-requirements.txt)
 fi
 
-sudo pip3 install -r requirements.txt
-sudo cp -r . /opt/wireguard-gui-python
-sudo chown -R $USER:$USER /opt/wireguard-gui-python
-cd /opt/wireguard-gui-python
-sudo chmod +x resources/wgp.desktop
+INSTALL_DIR=/opt/wireguard-gui-python
 
-cp resources/wgp.desktop $(xdg-user-dir DESKTOP)
+cp -r . $INSTALL_DIR
+chown -R $USER:$USER $INSTALL_DIR
+chmod +x $INSTALL_DIR/run.sh
+chmod +x $INSTALL_DIR/resources/wgp.desktop
+python3 -m venv $INSTALL_DIR/venv
+source $INSTALL_DIR/venv/bin/activate
+pip3 install -r $INSTALL_DIR/requirements.txt
+deactivate
+cp $INSTALL_DIR/resources/wgp.desktop /usr/share/applications/
 

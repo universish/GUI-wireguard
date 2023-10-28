@@ -10,17 +10,17 @@ You can use the `install.sh` script.
 
 ```
 $ git clone https://github.com/gary113/wireguard-gui-python.git
-$ cd wireguard-gui-python
-$ chmod +x install.sh
-$ ./install.sh
+$ chmod +x wireguard-gui-python/install.sh
+$ sudo wireguard-gui-python/install.sh
+$ rm -rf wireguard-gui-python
 ```
 
 It will:
 
 1. Install systems requirements from `system-requirements.txt`.
-2. Install Python requirements from `requirements.txt`.
-3. Copy the project folder to `/opt/wireguard-gui-python`.
-4. Copy wgp.desktop to the user's desktop.
+2. Copy the project folder to `/opt/wireguard-gui-python`.
+3. Install Python requirements from `requirements.txt` in a virtual environment.
+4. Copy wgp.desktop to /usr/share/applications (Applications menu).
 
 *Feel free to modify the script as you need.*
 
@@ -28,6 +28,7 @@ It will:
 
 1. Install requirements indicated in `system-requirements.txt` with your system's package managger and `requirements.txt` with pip.
 2. Copy the project directory wherever you want.
+3. Run with run.sh script or wgp.desktop located in resources folder.
 
 ## Usage
 
@@ -35,7 +36,7 @@ It will:
 
 #### Desktop file
 
-If you used the install script, you will have a desktop file on your desktop. Just double-click it, it will ask you for your sudo password (In some systems, you will need to allow the desktop file to run before using it).
+If you used the install script, you will have a desktop file on your applications menu. Just click it, it will ask you for your sudo password.
 
 ![desktop file](/screenshots/desktop-file.png "Desktop file")
 
