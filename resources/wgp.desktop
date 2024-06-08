@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=Network;Web;Internet;
 Comment=Wireguard client
-Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY /opt/wireguard-gui-python/run.sh
+Exec=/opt/wireguard-gui-python/run.sh
 Icon=/opt/wireguard-gui-python/resources/icons/wireguard-icon.png
 Name=wgp
 Path=/opt/wireguard-gui-python/

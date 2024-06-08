@@ -1,4 +1,3 @@
 #!/bin/bash
-source /opt/wireguard-gui-python/venv/bin/activate
-/opt/wireguard-gui-python/venv/bin/python3 /opt/wireguard-gui-python/wgp.py
-deactivate
+
+pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY /opt/wireguard-gui-python/venv/bin/python3 /opt/wireguard-gui-python/wgp.py
