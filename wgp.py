@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     if os.geteuid() != 0:
         QtWidgets.QMessageBox(QtWidgets.QMessageBox.Icon.Critical,
-                              'Error', 'You need admin privileges').exec()
+                              'Error', 'You need root privileges').exec()
         exit()
     else:
         ui = Ui_MainWindow()

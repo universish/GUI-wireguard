@@ -9,16 +9,13 @@ Wireguard client for Linux users, wrote in Python 3.
 You can use the `install.sh` script.
 
 ```
-$ git clone https://github.com/gary113/wireguard-gui-python.git
-$ chmod +x wireguard-gui-python/install.sh
-$ sudo wireguard-gui-python/install.sh
-$ rm -rf wireguard-gui-python
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/gary113/wireguard-gui-python/master/install.sh)"
 ```
 
 It will:
 
-1. Install systems requirements from `system-requirements.txt`.
-2. Copy the project folder to `/opt/wireguard-gui-python`.
+1. Clone this repository to `/opt/wireguard-gui-python`.
+2. Install systems requirements from `system-requirements.txt`.
 3. Install Python requirements from `requirements.txt` in a virtual environment.
 4. Copy wgp.desktop to /usr/share/applications (Applications menu).
 
@@ -28,7 +25,7 @@ It will:
 
 1. Install requirements indicated in `system-requirements.txt` with your system's package managger and `requirements.txt` with pip.
 2. Copy the project directory wherever you want.
-3. Run with run.sh script or wgp.desktop located in resources folder.
+3. Run with run.sh script or wgp.desktop located in resources folder, after update project directory.
 
 ## Usage
 
@@ -42,10 +39,10 @@ If you used the install script, you will have a desktop file on your application
 
 #### Manual
 
-Run wgp executing `wgp.py` **with admin privileges**:
+Run wgp executing `run.sh` **with admin privileges**:
 ```
 $ cd wireguard-gui-python
-$ sudo python wgp.py
+$ sudo ./run.sh
 ```
 
 ### About the usage
