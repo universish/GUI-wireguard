@@ -5,6 +5,9 @@ The goal is to make a wireguard interface for RPM-based operating systems, espec
 
 We will overcome the lack of rpm packages that are not released on git platforms. There are many gui for Wireguard on git platforms. But all of them are released as .deb for debian-derived distributions. 
 
+Development will be done with Rust. Interface will be created with QT. qmetaobject  (a connector for Rust and Qt) will be used. 
+______________________________________________________________________________________________________________
+
  I would also like to make a criticism here. For some reason, open source and free software developers are developing applications with graphical interfaces for windows OS, but for linux they leave us to CLI. It is up to us to remedy this deficiency. 
 
  
