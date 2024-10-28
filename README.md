@@ -13,6 +13,6 @@ ________________________________________________________________________________
 ______________________________________________________________________________________________________________
 
 Here are the URLs of the project resources to which the project is linked:
-https://github.com/WireGuard/wireguard-linux
-https://github.com/WireGuard/wireguard-tools
+* https://github.com/WireGuard/wireguard-linux
+* https://github.com/WireGuard/wireguard-tools
  
