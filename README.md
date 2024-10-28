@@ -10,4 +10,9 @@ ________________________________________________________________________________
 
  I would also like to make a criticism here. For some reason, open source and free software developers are developing applications with graphical interfaces for windows OS, but for linux they leave us to CLI. It is up to us to remedy this deficiency. 
 
+______________________________________________________________________________________________________________
+
+Here are the URLs of the project resources to which the project is linked:
+https://github.com/WireGuard/wireguard-linux
+https://github.com/WireGuard/wireguard-tools
  
