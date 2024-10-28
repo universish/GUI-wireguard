@@ -15,4 +15,6 @@ ________________________________________________________________________________
 Here are the URLs of the project resources to which the project is linked:
 * https://github.com/WireGuard/wireguard-linux
 * https://github.com/WireGuard/wireguard-tools
- 
+
+  Example of targeted functions and interface view:
+![wireguardwindows-4199201628](https://github.com/user-attachments/assets/bac2dd8f-c18d-4b9e-a706-878055807514)
